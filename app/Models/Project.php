@@ -4,20 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordActivity;
 
 class Project extends Model
 {
     protected $guarded = [];
-    /**
-     * @var mixed
-     */
-    private $owner;
-    /**
-     * @var mixed
-     */
-    private $tasks;
 
     use HasFactory;
+    use RecordActivity;
 
     public function path(): string
     {
@@ -35,9 +29,17 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function activity(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Activity::class)->latest();
+    }
+
     public function addTask($body)
     {
-        $this->tasks()->create(['body'=>$body]);
+        $task = $this->tasks()->create(['body' => $body]);
+        return $task;
+
     }
 
 }
+

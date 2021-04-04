@@ -36,17 +36,42 @@
 
             <div>
                 <h3 class="text-base text-gray-500 mb-2">General Notes</h3>
-                <textarea rows="6"
-                          class="shadow-md focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md">
-                </textarea>
+
+                <form method="POST" action="{{ $project->path() }}">
+                    @method('PATCH')
+                    @csrf
+
+<textarea name="notes" rows="6"
+          class="shadow-md focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+          placeholder="Anything on the project ..."
+>
+    {{ $project->notes }}
+</textarea>
+
+                    <button class="bg-indigo-400 inline-block text-white px-4 py-1 rounded-lg shadow-md mt-2" type="submit">
+                        Submit
+                    </button>
+                </form>
+
             </div>
         </div>
 
-        <div class="w-1/4 px-3">
+        <div class="w-1/4 px-3 ">
             @include('components.card')
+            <div class="bg-white rounded-lg shadow-lg px-4 py-3 h-44 mt-3">
+                <div class="font-semibold text-lg text-indigo-600 tracking-wide flex items-center">Activities</div>
+                <ul>
+                    @foreach($project->activity as $activity)
+                            <li class="text-sm hover:text-indigo-500">
+                                @include("projects.activity.{$activity->description}") ~
+                                <span class="text-xs text-gray-500 font-light">
+                                   {{ $activity->created_at->diffForHumans( null, true) }}
+                                </span>
+                            </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
-
-
     </div>
 
 

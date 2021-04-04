@@ -8,15 +8,16 @@ use Illuminate\Http\Request;
 
 class ProjectTasksController extends Controller
 {
-    public function store(Project $project){
+    public function store(Project $project)
+    {
 
-        if (auth()->user()->isNot($project->owner)){
+        if (auth()->user()->isNot($project->owner)) {
             abort(403);
         }
 
-       request()->validate([
-            'body'=> 'required',
-            ]);
+        request()->validate([
+            'body' => 'required',
+        ]);
 
         $project->addTask(request('body'));
 
@@ -25,19 +26,32 @@ class ProjectTasksController extends Controller
 
     public function update(Project $project, Task $task)
     {
-        if (auth()->user()->isNot($task->project->owner)){
+        if (auth()->user()->isNot($task->project->owner)) {
             abort(403);
         }
 
         request()->validate([
-            'body'=> 'required',
+            'body' => 'required',
         ]);
 
-        $task->update([
-            'body' => request('body'),
-            'completed' => request()->has('completed'),
-        ]);
+        $task->update(['body' => request('body')]);
+
+        if (request('completed')) {
+            $task->complete();
+        } else {
+            $task->incomplete();
+        }
 
         return redirect($project->path());
+    }
+
+    public function destroy(Project $project, Task $task)
+    {
+        if (auth()->user()->isNot($task->project->owner)) {
+            abort(403);
+        }
+
+        $task->delete();
+
     }
 }

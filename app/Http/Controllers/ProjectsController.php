@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -21,10 +22,7 @@ class ProjectsController extends Controller
 
     public function store(){
 
-        $attributes = request()->validate([
-            'title' =>'required',
-            'description' =>'required',
-        ]);
+        $attributes = $this->validateRequest();
 
         auth()->user()->projects()->create($attributes);
 
@@ -36,8 +34,33 @@ class ProjectsController extends Controller
         if (auth()->user()->isNot($project->owner)){
             abort(403);
         }
-//        $project = Project::findOrFail(request('project'));
 
         return view('projects.show', compact('project'));
+    }
+
+    public function edit(Project $project)
+    {
+       return view('projects.edit', compact('project'));
+    }
+
+    public function update(Project $project)
+    {
+
+        $this->authorize('update', $project);
+
+        $attributes = $this->validateRequest();
+
+        $project->update($attributes);
+
+        return redirect ($project->path());
+    }
+
+    public function validateRequest(): array
+    {
+        return $attributes = request()->validate([
+            'title' => 'sometimes|required',
+            'description' => 'sometimes|required',
+            'notes' => 'min:3',
+        ]);
     }
 }
