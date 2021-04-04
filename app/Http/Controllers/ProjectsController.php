@@ -8,19 +8,22 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $projects = auth()->user()->projects()->orderBy('updated_at', 'desc')->get();
 
         return view('projects.index', compact('projects'));
     }
 
-    public function create(){
+    public function create()
+    {
 
         return view('projects.create');
     }
 
-    public function store(){
+    public function store()
+    {
 
         $attributes = $this->validateRequest();
 
@@ -29,9 +32,10 @@ class ProjectsController extends Controller
         return redirect('/projects');
     }
 
-    public function show(Project $project){
+    public function show(Project $project)
+    {
 
-        if (auth()->user()->isNot($project->owner)){
+        if (auth()->user()->isNot($project->owner)) {
             abort(403);
         }
 
@@ -40,7 +44,7 @@ class ProjectsController extends Controller
 
     public function edit(Project $project)
     {
-       return view('projects.edit', compact('project'));
+        return view('projects.edit', compact('project'));
     }
 
     public function update(Project $project)
@@ -52,7 +56,7 @@ class ProjectsController extends Controller
 
         $project->update($attributes);
 
-        return redirect ($project->path());
+        return redirect($project->path());
     }
 
     public function validateRequest(): array
@@ -62,5 +66,12 @@ class ProjectsController extends Controller
             'description' => 'sometimes|required',
             'notes' => 'min:3',
         ]);
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+
+        return redirect('/projects');
     }
 }
