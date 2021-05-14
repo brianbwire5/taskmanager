@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\RecordActivity;
 
-class Project extends Model
+class
+Project extends Model
 {
     protected $guarded = [];
 
@@ -39,6 +40,16 @@ class Project extends Model
         $task = $this->tasks()->create(['body' => $body]);
         return $task;
 
+    }
+
+    public function invite(User $user)
+    {
+        return $this->members()->attach($user);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_members');
     }
 
 }

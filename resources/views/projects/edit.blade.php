@@ -1,6 +1,6 @@
 <x-app-layout>
     <div>
-        <h1>Edit a Project</h1>
+        <h1 class="dark:text-white">Edit a Project</h1>
     </div>
 
     <div class="container mt-6">

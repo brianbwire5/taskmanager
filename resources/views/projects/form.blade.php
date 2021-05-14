@@ -1,12 +1,13 @@
-    <div>
+    <div class="dark:text-white">
         <label class="label" for="title"> Title
-            <input type="text" name="title" placeholder="Title"
+            <input class="dark:bg-gray-700" type="text" name="title" placeholder="Title"
                    value="{{$project->title}}">
         </label>
     </div>
-    <div>
+    <div class="dark:text-white">
         <label class="label" for="title"> Description
             <textarea
+                class="dark:bg-gray-700"
                 name="description"
                 placeholder="Describe your Project">
                         {{ $project->description }}

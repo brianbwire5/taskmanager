@@ -10,8 +10,7 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-
-        $projects = auth()->user()->projects()->orderBy('updated_at', 'desc')->get();
+        $projects = auth()->user()->accessibleProjects();
 
         return view('projects.index', compact('projects'));
     }
@@ -34,10 +33,11 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
+        $this->authorize('update', $project);
 
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+//        if (auth()->user()->isNot($project->owner)) {
+//            abort(403);
+//        }
 
         return view('projects.show', compact('project'));
     }
@@ -70,6 +70,8 @@ class ProjectsController extends Controller
 
     public function destroy(Project $project)
     {
+        $this->authorize('manage', $project);
+
         $project->delete();
 
         return redirect('/projects');
