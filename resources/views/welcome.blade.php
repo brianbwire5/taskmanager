@@ -16,9 +16,8 @@
                 <a  href="{{route('register')}}" class="px-6 py-2 bg-indigo-400 rounded-lg shadow-md text-white">Register</a>
                 <a  href="{{route('login')}}" class="px-6 py-2 bg-indigo-400 rounded-lg shadow-md text-white">Login</a>
             </div>
-
         </div>
     </div>
-    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{ asset ('js/app.js')}}"></script>
     </body>
 </html>

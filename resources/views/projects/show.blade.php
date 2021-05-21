@@ -11,9 +11,8 @@
                          src="https://robohash.org/YOUR-TEXT.png" alt="{{$member->name}}'s avatar">
                 @endforeach
 
-                <a href="{{$project->path().'/edit'}}"
-                   class="px-8 py-2 text-white text-sm bg-indigo-400 inline-block rounded-lg shadow-lg"> Edit
-                    Project</a>
+                <button x-data="{}" x-on:click="window.livewire.emitTo('edit-modal','show')"
+                    class="px-8 py-2 text-white text-sm bg-indigo-400 inline-block rounded-lg shadow-lg"> Edit Project</button>
             </div>
 
         </div>
@@ -92,6 +91,5 @@
 
         </div>
     </div>
-
-
+    <livewire:edit-modal/>
 </x-app-layout>
