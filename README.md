@@ -1,5 +1,5 @@
 ![image](https://user-images.githubusercontent.com/61404473/154861833-b955953a-3148-4801-b098-0a737881503d.png)
-This is a task manager application for project management in a company.Its built entirely on Laravel php framework and SQL
+This is a task manager application for project management in a company.Its built entirely on Laravel php framework and SQL.Also uses github OAuth api to login users
 It allows users to perform basic functions like adding tasks, deleting tasks assigning tasks to different users, mail notification functionality and Setting priority of tasks
 ![image](https://user-images.githubusercontent.com/61404473/154862023-353a6673-0dfb-4581-a757-544f77f55c99.png)
 Once a user is logged in they can view their tasks on the dashboard
