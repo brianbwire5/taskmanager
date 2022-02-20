@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/projects/{project}/invitations', [ProjectInvitationsController::class, 'store']);
     Route::post('/projects',[ProjectsController::class, 'store']);
     Route::patch('/projects/{project}/tasks/{task}',[ProjectTasksController::class, 'update']);
+    Route::get('/sign-in/github',[ProjectsController::class, 'github'])->name('github'); 
+    Route::get('/sign-in/github/redirect',[ProjectsController::class, 'githubRedirect']); 
 
 });
 

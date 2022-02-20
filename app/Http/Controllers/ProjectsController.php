@@ -5,6 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Socialite;
+use App\Models\User;
+//use App\Http\Controllers\Auth;
+use Auth;
+use Str;
+use Hash;
+
+
+
 
 class ProjectsController extends Controller
 {
@@ -75,5 +84,29 @@ class ProjectsController extends Controller
         $project->delete();
 
         return redirect('/projects');
+    }
+
+    public function github()
+    {
+
+     return Socialite::driver('github')->redirect();
+    }
+
+    public function githubRedirect()
+
+    {
+     $user = Socialite::driver('github')->user();
+     
+     $user = User::firstOrCreate([
+         'email' => $user->email
+     ], [
+         'name' => $user->name,
+         'password'=> Hash::make(Str::random(24))
+     ]);
+
+      Auth::login($user, true);
+
+     return redirect('projects');
+
     }
 }
